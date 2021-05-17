@@ -3,7 +3,7 @@
 */
 
 import * as Hapi from '@hapi/hapi';
-import { registerAll } from './handler';
+import { registerAll } from './routes';
 
 const init = async () => {
     const server = new Hapi.Server({
