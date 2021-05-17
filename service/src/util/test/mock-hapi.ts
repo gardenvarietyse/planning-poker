@@ -9,16 +9,20 @@ import * as Hapi from '@hapi/hapi';
 
 export class MockHapi {
   body: object;
+  params: object;
+
   response: object;
   responseCode: number;
 
-  constructor(body = {}) {
+  constructor(body = {}, params = {}) {
     this.body = body;
+    this.params = params;
   }
 
   get request(): Hapi.Request {
     return {
-      payload: this.body
+      payload: this.body,
+      params: this.params,
     } as unknown as Hapi.Request;
   }
 

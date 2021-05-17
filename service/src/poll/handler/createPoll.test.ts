@@ -1,17 +1,7 @@
 import { describe, expect, test } from '@jest/globals';
-import { MockHapi } from '../../util/mock-hapi';
-import { IPoll } from '../model/poll.interface';
-import { IPollStore } from '../store/poll.store';
+import { MockHapi } from '../../util/test/mock-hapi';
+import { MockStore, VALID_POLL_ID } from '../../util/test/mock-poll-store';
 import { handler as createPoll } from './createPoll';
-
-const TEST_ID = 'test-id';
-const TEST_TITLE = 'test-title';
-
-class MockStore implements IPollStore {
-  createPoll(title: string): IPoll { 
-    return { id: TEST_ID, title: TEST_TITLE };
-  }
-}
 
 describe('createPoll', () => {
   test('should fail with missing title', () => {
@@ -21,7 +11,7 @@ describe('createPoll', () => {
     
     handler(invalid.request, invalid.toolkit);
 
-    expect(invalid.response).toBe(undefined);
+    expect(invalid.response['error']).toBe('invalid_body');
     expect(invalid.responseCode).toBe(400);
   });
 
@@ -32,7 +22,7 @@ describe('createPoll', () => {
     
     handler(invalid.request, invalid.toolkit);
 
-    expect(invalid.response).toBe(undefined);
+    expect(invalid.response['error']).toBe('invalid_body');
     expect(invalid.responseCode).toBe(400);
   });
 
@@ -45,8 +35,8 @@ describe('createPoll', () => {
     
     handler(valid.request, valid.toolkit);
 
-    expect(valid.response['id']).toBe(TEST_ID);
-    expect(valid.response['title']).toBe(TEST_TITLE);
+    expect(valid.response['id']).toBe(VALID_POLL_ID);
+    expect(valid.response['title']).toBe('test-title');
     expect(valid.responseCode).toBe(200);
   });
 });

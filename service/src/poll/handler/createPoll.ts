@@ -1,12 +1,12 @@
 import * as Hapi from '@hapi/hapi';
-import { postSchema } from '../model/poll.schema';
-import { IPollStore, IPollStoreConstructor } from '../store/poll.store';
+import { createSchema } from '../model/poll.schema';
+import { IPollStore } from '../store/poll.store';
 
 export const handler = (store: IPollStore) => (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
-  const { error } = postSchema.validate(request.payload);
+  const { error } = createSchema.validate(request.payload);
 
   if (error) {
-    return h.response().code(400);
+    return h.response({ error: 'invalid_body' }).code(400);
   }
 
   // probably need a better way to manage schemas and request body types
@@ -16,10 +16,10 @@ export const handler = (store: IPollStore) => (request: Hapi.Request, h: Hapi.Re
   return h.response(poll).code(200);
 };
 
-export const registerHandler = (server: Hapi.Server, StoreCtor: IPollStoreConstructor) => {
+export const registerHandler = (server: Hapi.Server, store: IPollStore) => {
   server.route({
     method: 'POST',
     path: '/poll',
-    handler: handler(new StoreCtor()),
+    handler: handler(store),
   });
 };
