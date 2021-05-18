@@ -1,10 +1,7 @@
 import * as Hapi from '@hapi/hapi';
-import { v4 as uuid } from 'uuid';
 
 import { joinSchema } from '../model/poll.schema';
 import { IPollStore } from '../store/poll.store';
-
-const UUID_V4_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 
 export const handler = (store: IPollStore) => (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
   const { error } = joinSchema.validate(request.payload);
@@ -23,7 +20,7 @@ export const handler = (store: IPollStore) => (request: Hapi.Request, h: Hapi.Re
   }
 
   // todo: allow rejoining with valid user id
-  const user = store.addUser(pollId, name);
+  const user = store.addUser(poll, name);
 
   return h.response({
     userId: user.id,
