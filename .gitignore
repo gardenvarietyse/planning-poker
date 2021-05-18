@@ -1,3 +1,4 @@
 .DS_Store
 challenge.txt
 node_modules
+coverage

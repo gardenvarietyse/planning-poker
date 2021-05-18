@@ -25,6 +25,7 @@ export class InMemoryPollStore implements IPollStore {
     return this.polls.get(id) || null;
   }
 
+  // todo: why not generate userId here and return user instance
   addUser(pollId: string, userId: string, name: string): boolean {
     const poll = this.polls.get(pollId);
 
@@ -35,7 +36,7 @@ export class InMemoryPollStore implements IPollStore {
     poll.votes = [
       ...poll.votes,
       {
-        user: { id: userId, name},
+        user: { id: userId, name },
         vote: null,
       }
     ];
@@ -44,6 +45,20 @@ export class InMemoryPollStore implements IPollStore {
   }
 
   setVote(pollId: string, userId: string, vote: string): boolean {
-    return true; 
+    const poll = this.polls.get(pollId);
+
+    if (!poll) {
+      return false;
+    }
+
+    const userVote = poll.votes.find(v => v.user.id === userId);
+
+    if (!userVote) {
+      return false;
+    }
+
+    userVote.vote = vote;
+
+    return true;
   }
 }
