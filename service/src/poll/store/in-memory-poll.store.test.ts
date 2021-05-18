@@ -47,20 +47,13 @@ describe('InMemoryPollStore', () => {
   });
 
   describe('addUser', () => {
-    test('should not add user to non-existent poll', () => {
-      const store = new InMemoryPollStore();
-
-      const result = store.addUser('no-no-no', '1', 'bob');
-      expect(result).toBe(false);
-    });
-
     test('should add user to poll on success', () => {
       const store = new InMemoryPollStore();
 
       const poll = store.createPoll(POLL_TITLE);
 
-      const result = store.addUser(poll.id, USER_ID, USER_NAME);
-      expect(result).toBe(true);
+      const user = store.addUser(poll, USER_NAME);
+      expect(user).toBeDefined();
 
       expect(poll.votes.length).toBe(1);
 
@@ -68,25 +61,16 @@ describe('InMemoryPollStore', () => {
       expect(userVote).toBeDefined();
       expect(userVote.vote).toBeNull();
 
-      const user = userVote.user;
-      expect(user.id).toBe(USER_ID);
-      expect(user.name).toBe(USER_NAME);
+      expect(userVote.user).toBe(user);
     });
   });
 
   describe('setVote', () => {
-    test('should not set vote on non-existent poll', () => {
-      const store = new InMemoryPollStore();
-
-      const result = store.setVote('no', 'nah', '1');
-      expect(result).toBe(false);
-    });
-
     test('should not set vote for non-existent user', () => {
       const store = new InMemoryPollStore();
       const poll = store.createPoll(POLL_TITLE);
 
-      const result = store.setVote(poll.id, 'alice', '1/2');
+      const result = store.setVote(poll, '2', '1/2');
       expect(result).toBe(false);
     });
 
@@ -94,9 +78,9 @@ describe('InMemoryPollStore', () => {
       const store = new InMemoryPollStore();
 
       const poll = store.createPoll(POLL_TITLE);
-      store.addUser(poll.id, USER_ID, USER_NAME);
+      const user = store.addUser(poll, USER_NAME);
 
-      const result = store.setVote(poll.id, USER_ID, '1/2');
+      const result = store.setVote(poll, user.id, '1/2');
       expect(result).toBe(true);
     });
   });

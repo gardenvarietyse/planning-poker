@@ -21,6 +21,8 @@ const MOCK_POLL = {
 export class MockStore implements IPollStore {
   users: IUser[] = [];
 
+  private nextUserId = 2;
+
   createPoll(title: string): IPoll { 
     return MOCK_POLL;
   }
@@ -33,17 +35,19 @@ export class MockStore implements IPollStore {
     return null;
   }
 
-  addUser(pollId: string, userId: string, name: string): boolean {
-    this.users = [...this.users, {
-      id: userId,
+  addUser(poll: IPoll, name: string): IUser {
+    const user = {
+      id: `${++this.nextUserId}`,
       name,
-    }];
+    };
 
-    return true;
+    this.users = [...this.users, user];
+
+    return user;
   }
 
-  setVote(pollId: string, userId: string, name: string): boolean {
-    if (pollId !== VALID_POLL_ID) {
+  setVote(poll: IPoll, userId: string, vote: string): boolean {
+    if (poll.id !== VALID_POLL_ID) {
       return false;
     }
 

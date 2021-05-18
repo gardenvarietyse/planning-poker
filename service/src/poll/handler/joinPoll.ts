@@ -23,12 +23,10 @@ export const handler = (store: IPollStore) => (request: Hapi.Request, h: Hapi.Re
   }
 
   // todo: allow rejoining with valid user id
-  const userId = uuid();
-
-  store.addUser(pollId, userId, name);
+  const user = store.addUser(pollId, name);
 
   return h.response({
-    userId,
+    userId: user.id,
     poll,
   }).code(200);
 };

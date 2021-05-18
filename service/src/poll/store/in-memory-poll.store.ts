@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { IPoll } from '../model/poll.interface';
+import { IPoll, IUser } from '../model/poll.interface';
 import { IPollStore } from './poll.store';
 
 export class InMemoryPollStore implements IPollStore {
@@ -25,32 +25,25 @@ export class InMemoryPollStore implements IPollStore {
     return this.polls.get(id) || null;
   }
 
-  // todo: why not generate userId here and return user instance
-  addUser(pollId: string, userId: string, name: string): boolean {
-    const poll = this.polls.get(pollId);
+  addUser(poll: IPoll, name: string): IUser {
+    const id = uuidv4();
 
-    if (!poll) {
-      return false;
-    }
+    const user = {
+      id, name,
+    };
 
     poll.votes = [
       ...poll.votes,
       {
-        user: { id: userId, name },
+        user,
         vote: null,
       }
     ];
 
-    return true;
+    return user;
   }
 
-  setVote(pollId: string, userId: string, vote: string): boolean {
-    const poll = this.polls.get(pollId);
-
-    if (!poll) {
-      return false;
-    }
-
+  setVote(poll: IPoll, userId: string, vote: string): boolean {
     const userVote = poll.votes.find(v => v.user.id === userId);
 
     if (!userVote) {

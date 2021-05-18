@@ -15,12 +15,12 @@ export const handler = (store: IPollStore) => (request: Hapi.Request, h: Hapi.Re
   const { pollId, userId, vote } = payload;
 
   const poll = store.getPoll(pollId);
-
+  
   if (!poll) {
     return h.response({ error: 'not_found' }).code(404);
   }
 
-  const tryVote = store.setVote(pollId, userId, vote);
+  const tryVote = store.setVote(poll, userId, vote);
 
   if (!tryVote) {
     // error codes aren't super granular at the momeent
