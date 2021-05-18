@@ -13,19 +13,14 @@ export const handler = (store: IPollStore) => (request: Hapi.Request, h: Hapi.Re
     return h.response({ error: 'invalid_body' }).code(400);
   }
 
-  const pollId: string = request.params['id'];
-
-  if (!pollId.match(UUID_V4_REGEX)) {
-    return h.response({ error: 'invalid_id' }).code(400);
-  }
+  const payload = request.payload as any;
+  const { pollId, name } = payload;
 
   const poll = store.getPoll(pollId);
 
   if (!poll) {
     return h.response({ error: 'not_found' }).code(404);
   }
-
-  const { name } = request.payload as any;
 
   // todo: allow rejoining with valid user id
   const userId = uuid();
@@ -41,7 +36,7 @@ export const handler = (store: IPollStore) => (request: Hapi.Request, h: Hapi.Re
 export const registerHandler = (server: Hapi.Server, store: IPollStore) => {
   server.route({
     method: 'POST',
-    path: '/poll/{id}',
+    path: '/poll/join',
     handler: handler(store),
   });
 };

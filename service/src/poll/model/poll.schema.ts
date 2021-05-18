@@ -6,6 +6,7 @@ export const createSchema = Joi.object({
 });
 
 export const joinSchema = Joi.object({
+  pollId: Joi.string().pattern(UUID_V4_REGEX).required(),
   name: Joi.string().alphanum().min(1).required(),
 });
 
