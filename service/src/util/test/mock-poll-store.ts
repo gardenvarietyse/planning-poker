@@ -1,3 +1,7 @@
+/*
+  mock poll store for use in unit tests
+*/
+
 import { IPoll, IUser } from '../../poll/model/poll.interface';
 import { IPollStore } from '../../poll/store/poll.store';
 
@@ -28,10 +32,16 @@ export class MockStore implements IPollStore {
     return null;
   }
 
-  addUser(pollId: string, userId: string, name: string) {
+  addUser(pollId: string, userId: string, name: string): boolean {
     this.users = [...this.users, {
       id: userId,
       name,
     }];
+
+    return true;
+  }
+
+  setVote(pollId: string, userId: string, name: string): boolean {
+    return true;
   }
 }

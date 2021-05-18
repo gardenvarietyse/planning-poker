@@ -32,7 +32,10 @@ export const handler = (store: IPollStore) => (request: Hapi.Request, h: Hapi.Re
 
   store.addUser(pollId, userId, name);
 
-  return h.response(poll).code(200);
+  return h.response({
+    userId,
+    poll,
+  }).code(200);
 };
 
 export const registerHandler = (server: Hapi.Server, store: IPollStore) => {

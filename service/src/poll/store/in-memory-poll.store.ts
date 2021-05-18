@@ -42,4 +42,8 @@ export class InMemoryPollStore implements IPollStore {
 
     return true;
   }
+
+  setVote(pollId: string, userId: string, vote: string): boolean {
+    return true; 
+  }
 }

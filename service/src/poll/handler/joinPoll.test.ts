@@ -68,8 +68,15 @@ describe('joinPoll', () => {
     expect(user.name).toBe(VALID_REQUEST_BODY.name);
     expect(user.id.length).toBeGreaterThan(0);
 
-    expect(valid.response['id']).toBe(VALID_POLL_ID);
-    expect(valid.response['title']).toBe('test-title');
+    const userId = valid.response['userId'];
+    expect(userId).toBeDefined();
+    expect(userId.length).toBeGreaterThan(0);
+
+
+    const poll = valid.response['poll'];
+    expect(poll['id']).toBe(VALID_POLL_ID);
+    expect(poll['title']).toBe('test-title');
+
     expect(valid.responseCode).toBe(200);
   });
 });
