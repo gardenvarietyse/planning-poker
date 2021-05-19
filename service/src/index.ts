@@ -3,16 +3,27 @@
 */
 
 import * as Hapi from '@hapi/hapi';
+import { Server } from 'socket.io';
+
 import { registerPollFeature } from './poll';
 
 const init = async () => {
     const server = new Hapi.Server({
-        port: 3000,
-        host: 'localhost',
+      port: 3000,
+      host: 'localhost',
+      routes: {
+        cors: true
+      }
     });
-
-    registerPollFeature(server);
     
+    const socket = new Server(server.listener, {
+      cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+      }
+    });
+    
+    registerPollFeature(server, socket);
     await server.start();
 };
 

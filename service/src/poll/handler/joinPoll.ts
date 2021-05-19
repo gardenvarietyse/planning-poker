@@ -1,4 +1,6 @@
 import * as Hapi from '@hapi/hapi';
+import { Server } from 'socket.io';
+import { UUID_V4_REGEX } from '../../util/regex';
 
 import { joinSchema } from '../model/poll.schema';
 import { IPollStore } from '../store/poll.store';
@@ -28,10 +30,39 @@ export const handler = (store: IPollStore) => (request: Hapi.Request, h: Hapi.Re
   }).code(200);
 };
 
-export const registerHandler = (server: Hapi.Server, store: IPollStore) => {
+export const registerHandler = (server: Hapi.Server, socket: Server, store: IPollStore) => {
   server.route({
     method: 'POST',
     path: '/poll/join',
     handler: handler(store),
   });
+
+  socket.on('connection', (connection) => {
+    const pollId = connection.handshake.query['pollId'] as string;
+    const name = connection.handshake.query['name'] as string;
+    
+    if (!pollId?.match(UUID_V4_REGEX)) {
+      connection.disconnect(true);
+      return;
+    }
+
+    const poll = store.getPoll(pollId);
+    if (!poll) {
+      connection.disconnect(true);
+      return;
+    }
+
+    if ((name ?? '').length === 0) {
+      connection.disconnect(true);
+      return;
+    }
+
+    const user = store.addUser(poll, name);
+
+    connection.join(pollId);
+    connection.emit('joined', user);
+    
+    socket.to(pollId).emit('user_joined')
+  });
+  
 };
