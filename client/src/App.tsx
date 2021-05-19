@@ -1,21 +1,23 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from 'react-router-dom';
+
 import './App.css';
-import { useSocket } from './reducer/useSocket';
+import { CreatePoll } from './poll/component/CreatePoll';
+import { Poll } from './poll/component/Poll';
 
-function App() {
-  useSocket({
-    name: 'bob',
-    pollId: '9e7a1cbd-52ff-4533-8265-e250a66155d9',
-  }, {
-    vote: data => console.log('got data!', data),
-    join: data => console.log('you joined', data),
-  });
-  
-  return (
-    <div className="App">
-      yo
+export const App = () => (
+  <Router>
+    <div className="main">
+      <h1>planning poker</h1>
+      <Switch>
+        <Route path="/poll/:pollId" component={Poll} />
+        <Route path="/" component={CreatePoll} />
+      </Switch>
     </div>
-  );
-}
+  </Router>
+);
 
-export default App;

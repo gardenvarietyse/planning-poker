@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { io, Socket } from 'socket.io-client';
 
 type HandlerFn = (event: string, data: object) => void;
@@ -9,7 +9,7 @@ interface ISocketConnection {
   name: string;
 }
 
-export const useSocket = (connectionRequest: ISocketConnection, handlers: HandlerMap, endpoint: string = 'ws://localhost:3000'): Socket | null => {
+export const useSocket = (connectionRequest: ISocketConnection, handlers: HandlerMap, endpoint: string): Socket | null => {
   const socket = useRef<Socket | null>(null);
 
   useEffect(() => {
