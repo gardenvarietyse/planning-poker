@@ -66,7 +66,7 @@ export const registerHandler = (server: Hapi.Server, socket: Server, store: IPol
       poll,
     });
 
-    connection.broadcast.emit('user_joined', user);
+    connection.broadcast.to(pollId).emit('user_joined', user);
   });
   
 };
