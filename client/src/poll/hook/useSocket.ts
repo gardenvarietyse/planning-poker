@@ -17,7 +17,7 @@ export const useSocket = (connectionRequest: ISocketConnection, handlers: Handle
       const { pollId, name } = connectionRequest;
 
       socket.current = io(endpoint, {
-        query: {
+        auth: {
           name,
           pollId,
         },

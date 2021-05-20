@@ -38,8 +38,8 @@ export const registerHandler = (server: Hapi.Server, socket: Server, store: IPol
   });
 
   socket.on('connection', (connection) => {
-    const pollId = connection.handshake.query['pollId'] as string;
-    const name = connection.handshake.query['name'] as string;
+    const pollId = connection.handshake.auth['pollId'] as string;
+    const name = connection.handshake.auth['name'] as string;
     
     if (!pollId?.match(UUID_V4_REGEX)) {
       connection.disconnect(true);
