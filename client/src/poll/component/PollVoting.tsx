@@ -6,6 +6,7 @@ import { useSocket } from '../hook/useSocket';
 import { addUser, pollReducer, setPoll, setVote } from '../state/pollReducer';
 import { UserVotes } from './UserVotes';
 import { VoteSelection } from './VoteSelection';
+import './PollVoting.scss';
 
 /*
   a bit too much logic & presentation mixed here I think
@@ -24,7 +25,6 @@ export const PollVoting: FunctionComponent<PollVoteProps> = ({ pollId, userName 
   
   const joinedPoll = (data: IPollJoin) => {
     const { user, poll } = data;
-    console.log(`joined as ${user.id}`);
 
     setUserId(user.id);
     pollDispatch(setPoll(poll));
@@ -58,14 +58,13 @@ export const PollVoting: FunctionComponent<PollVoteProps> = ({ pollId, userName 
   };
 
   return poll ? (
-    <>
+    <div className="poll-voting">
       <h3>{poll.title}</h3>
-      <h5>(user id {userId})</h5>
       <div className="poll-voting">
         <UserVotes votes={poll.votes} />
         <VoteSelection votes={ALLOWED_VOTES} castVote={castVote} />
       </div>
-    </>
+    </div>
   ) : null;
 };
 

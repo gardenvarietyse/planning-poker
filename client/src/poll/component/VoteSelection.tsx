@@ -1,7 +1,9 @@
 import React, { FunctionComponent } from 'react';
+import "./VoteSelection.scss";
 
 export const VoteSelection: FunctionComponent<VoteSelectionProps> = ({ votes, castVote }) => (
-  <div className="users">
+  <div className="vote-buttons">
+    <span>Select your vote</span>
     <ul>
       {votes.map(vote => (
         <li key={vote}>

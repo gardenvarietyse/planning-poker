@@ -5,7 +5,7 @@ import {
   Route,
 } from 'react-router-dom';
 
-import './App.css';
+import './App.scss';
 import { CreatePoll } from './poll/component/CreatePoll';
 import { Poll } from './poll/component/Poll';
 

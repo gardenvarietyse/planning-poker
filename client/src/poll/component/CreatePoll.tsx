@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { createPoll } from '../api';
+import './CreatePoll.scss';
 
 export const CreatePoll = () => {
   const history = useHistory();

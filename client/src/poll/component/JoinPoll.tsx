@@ -7,6 +7,7 @@ export const JoinPoll: FunctionComponent<JoinPollProps> = ({ joinWithName }) => 
     setUserName(e.currentTarget.value);
   };
 
+  // reuse create-poll styles for convenience
   return (
     <>
       <h3>Enter your name</h3>
