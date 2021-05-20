@@ -1,9 +1,10 @@
 import * as Hapi from '@hapi/hapi';
+import { Server } from 'socket.io';
 
 import { voteSchema } from '../model/poll.schema';
 import { IPollStore } from '../store/poll.store';
 
-export const handler = (store: IPollStore) => (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
+export const handler = (store: IPollStore, socket?: Server) => (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
   const { error } = voteSchema.validate(request.payload);
 
   if (error) {
@@ -20,20 +21,22 @@ export const handler = (store: IPollStore) => (request: Hapi.Request, h: Hapi.Re
     return h.response({ error: 'not_found' }).code(404);
   }
 
-  const tryVote = store.setVote(poll, userId, vote);
+  const castVote = store.setVote(poll, userId, vote);
 
-  if (!tryVote) {
+  if (!castVote) {
     // error codes aren't super granular at the momeent
     return h.response({ error: 'not_found' }).code(404);
   }
 
+  socket?.emit('user_voted', castVote);
+
   return h.response().code(200);
 };
 
-export const registerHandler = (server: Hapi.Server, store: IPollStore) => {
+export const registerHandler = (server: Hapi.Server, socket: Server, store: IPollStore) => {
   server.route({
     method: 'PUT',
     path: '/poll/vote',
-    handler: handler(store),
+    handler: handler(store, socket),
   });
 };

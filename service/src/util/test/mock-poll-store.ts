@@ -2,7 +2,7 @@
   mock poll store for use in unit tests
 */
 
-import { IPoll, IUser } from '../../poll/model/poll.interface';
+import { IPoll, IUser, IVote } from '../../poll/model/poll.interface';
 import { IPollStore } from '../../poll/store/poll.store';
 
 export const VALID_POLL_ID = '33e6c756-7890-4a50-aed2-354405914231';
@@ -46,15 +46,15 @@ export class MockStore implements IPollStore {
     return user;
   }
 
-  setVote(poll: IPoll, userId: string, vote: string): boolean {
+  setVote(poll: IPoll, userId: string, vote: string): IVote {
     if (poll.id !== VALID_POLL_ID) {
-      return false;
+      return null;
     }
 
     if (userId !== VALID_USER_ID) {
-      return false;
+      return null;
     }
     
-    return true;
+    return { user: null, vote: '1' };
   }
 }

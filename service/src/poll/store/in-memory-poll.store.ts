@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { IPoll, IUser } from '../model/poll.interface';
+import { IPoll, IUser, IVote } from '../model/poll.interface';
 import { IPollStore } from './poll.store';
 
 export class InMemoryPollStore implements IPollStore {
@@ -43,15 +43,15 @@ export class InMemoryPollStore implements IPollStore {
     return user;
   }
 
-  setVote(poll: IPoll, userId: string, vote: string): boolean {
+  setVote(poll: IPoll, userId: string, vote: string): IVote {
     const userVote = poll.votes.find(v => v.user.id === userId);
 
     if (!userVote) {
-      return false;
+      return null;
     }
 
     userVote.vote = vote;
 
-    return true;
+    return userVote;
   }
 }

@@ -60,9 +60,13 @@ export const registerHandler = (server: Hapi.Server, socket: Server, store: IPol
     const user = store.addUser(poll, name);
 
     connection.join(pollId);
-    connection.emit('joined', user);
-    
-    socket.to(pollId).emit('user_joined')
+
+    connection.emit('joined', {
+      user,
+      poll,
+    });
+
+    connection.broadcast.emit('user_joined', user);
   });
   
 };

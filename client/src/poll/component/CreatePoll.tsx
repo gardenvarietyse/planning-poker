@@ -8,11 +8,11 @@ export const CreatePoll = () => {
   const [creatingPoll, setCreatingPoll] = useState(false);
   const [pollTitle, setPollTitle] = useState('');
   
-  const onChangePollTitle = (e: React.FormEvent<HTMLInputElement>) => {
+  const onChangeTitle = (e: React.FormEvent<HTMLInputElement>) => {
     setPollTitle(e.currentTarget.value);
   };
 
-  const onClickCreatePoll = async () => {
+  const onClickCreate = async () => {
     setCreatingPoll(true);
 
     const result = await createPoll(pollTitle);
@@ -32,8 +32,8 @@ export const CreatePoll = () => {
     <>
       <h3>Enter poll title</h3>
       <div className="create-poll">
-        <input className="create-poll--title" onChange={onChangePollTitle} value={pollTitle} disabled={creatingPoll} />
-        <button className="create-poll--submit" onClick={onClickCreatePoll} disabled={pollTitle.length === 0 || creatingPoll}>
+        <input className="create-poll--title" onChange={onChangeTitle} value={pollTitle} disabled={creatingPoll} />
+        <button className="create-poll--submit" onClick={onClickCreate} disabled={pollTitle.length === 0 || creatingPoll}>
           Create
         </button>
       </div>

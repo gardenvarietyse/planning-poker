@@ -13,5 +13,5 @@ export const registerPollFeature = (server: Hapi.Server, socket: Server, storeCt
 
   registerCreatePollHandler(server, store);
   registerJoinPollHandler(server, socket, store);
-  registerVotePollHandler(server, store);  
+  registerVotePollHandler(server, socket, store);  
 };

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { io, Socket } from 'socket.io-client';
 
-type HandlerFn = (event: string, data: object) => void;
+type HandlerFn = (data: any) => void;
 type HandlerMap = Record<string, HandlerFn>;
 
 interface ISocketConnection {
@@ -20,7 +20,7 @@ export const useSocket = (connectionRequest: ISocketConnection, handlers: Handle
         query: {
           name,
           pollId,
-        }
+        },
       });
 
       Object.keys(handlers).forEach(event => {
@@ -31,7 +31,9 @@ export const useSocket = (connectionRequest: ISocketConnection, handlers: Handle
     return () => {
       socket.current?.disconnect();
     };
-  });
+    // don't reconnect on re-render
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return socket.current;
 };

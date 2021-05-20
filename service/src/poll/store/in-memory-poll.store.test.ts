@@ -71,7 +71,7 @@ describe('InMemoryPollStore', () => {
       const poll = store.createPoll(POLL_TITLE);
 
       const result = store.setVote(poll, '2', '1/2');
-      expect(result).toBe(false);
+      expect(result).toBeNull();
     });
 
     test('should set vote with valid input', () => {
@@ -81,7 +81,11 @@ describe('InMemoryPollStore', () => {
       const user = store.addUser(poll, USER_NAME);
 
       const result = store.setVote(poll, user.id, '1/2');
-      expect(result).toBe(true);
+      expect(result).toBeDefined();
+
+      const { user: voteUser, vote } = result;
+      expect(voteUser).toBe(user);
+      expect(vote).toBe('1/2');
     });
   });
 });
