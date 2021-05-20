@@ -1,0 +1,44 @@
+.users {
+  ul {
+    width: 80vw;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    justify-content: space-evenly;
+
+    li {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      
+      background-color: #fff;
+      font-size: 30px;
+      padding: 10px 20px;
+      border-radius: 16px;
+    
+      max-width: 70px;
+      min-height: 94px;
+
+      list-style-type: none;
+    }
+  }
+    
+  & &__name {
+    color: #4a79b9;
+  }
+
+  & &__vote {
+    color: #000;
+    font-size: 36px;
+    font-weight: 800;
+    margin-top: 16px;
+
+    &--unknown {
+      color: #888;
+      font-size: 30px;
+      font-weight: 600;
+    }
+  }
+}

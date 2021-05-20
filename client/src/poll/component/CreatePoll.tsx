@@ -33,8 +33,8 @@ export const CreatePoll = () => {
     <>
       <h3>Enter poll title</h3>
       <div className="create-poll">
-        <input className="create-poll--title" onChange={onChangeTitle} value={pollTitle} disabled={creatingPoll} />
-        <button className="create-poll--submit" onClick={onClickCreate} disabled={pollTitle.length === 0 || creatingPoll}>
+        <input className="create-poll__title" onChange={onChangeTitle} value={pollTitle} disabled={creatingPoll} />
+        <button className="create-poll__submit" onClick={onClickCreate} disabled={pollTitle.length === 0 || creatingPoll}>
           Create
         </button>
       </div>

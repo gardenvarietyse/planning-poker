@@ -12,8 +12,8 @@ export const JoinPoll: FunctionComponent<JoinPollProps> = ({ joinWithName }) => 
     <>
       <h3>Enter your name</h3>
       <div className="create-poll">
-        <input className="create-poll--title" onChange={onChangeUserName} value={userName} />
-        <button className="create-poll--submit" onClick={() => joinWithName(userName)} disabled={userName.length === 0}>
+        <input className="create-poll__title" onChange={onChangeUserName} value={userName} />
+        <button className="create-poll__submit" onClick={() => joinWithName(userName)} disabled={userName.length === 0}>
           Join
         </button>
       </div>

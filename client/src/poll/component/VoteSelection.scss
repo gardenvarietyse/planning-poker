@@ -6,15 +6,15 @@
   
   ul {
     width: 80vw;
+    
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
     justify-content: space-evenly;
     
     li {
       list-style-type: none;
-
+  
       button {
         font-size: 32px;
         padding: 20px;
