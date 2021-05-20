@@ -6,4 +6,20 @@
   h3 {
     margin-top: 0px;
   }
+
+  &__link {
+    font-family: monospace;
+
+    color: #fff;
+    background-color: #88f;
+
+    margin-bottom: 20px;
+    padding: 4px;
+    border-radius: 4px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: lighten(#88f, 5%);
+    }
+  }
 }

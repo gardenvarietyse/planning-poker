@@ -18,6 +18,9 @@ const EMPTY_POLL: IPoll = {
   votes: [],
 };
 
+// naive way to get poll URL for now
+const getPollUrl = (): string => document.location.href;
+
 export const PollVoting: FunctionComponent<PollVoteProps> = ({ pollId, userName }) => {
   const [userId, setUserId] = useState('');
 
@@ -57,13 +60,18 @@ export const PollVoting: FunctionComponent<PollVoteProps> = ({ pollId, userName 
     }
   };
 
+  const copyPollUrl = () => {
+    navigator.clipboard.writeText(getPollUrl());
+  };
+
   return poll ? (
     <div className="poll-voting">
       <h3>{poll.title}</h3>
-      <div className="poll-voting">
+      <div className="poll-voting__link" onClick={copyPollUrl}>{ getPollUrl() }</div>
+      <>
         <UserVotes votes={poll.votes} />
         <VoteSelection votes={ALLOWED_VOTES} castVote={castVote} />
-      </div>
+      </>
     </div>
   ) : null;
 };
