@@ -9,7 +9,7 @@ interface ISocketConnection {
   name: string;
 }
 
-export const useSocket = (connectionRequest: ISocketConnection, handlers: HandlerMap, endpoint: string): Socket | null => {
+export const useSocket = (connectionRequest: ISocketConnection, handlers: HandlerMap, endpoint: string): void => {
   const socket = useRef<Socket | null>(null);
 
   useEffect(() => {
@@ -34,6 +34,4 @@ export const useSocket = (connectionRequest: ISocketConnection, handlers: Handle
     // don't reconnect on re-render
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  return socket.current;
 };
