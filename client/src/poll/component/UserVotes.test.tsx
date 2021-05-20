@@ -4,7 +4,6 @@ import { IVote } from '../api/poll.interface';
 import { UserVotes } from './UserVotes';
 
 describe('UserVotes', () => {
-
   test('renders users and votes', () => {
     const MOCK_VOTES: IVote[] = [
       { user: { id: '1', name: 'bob' }, vote: '1' },
